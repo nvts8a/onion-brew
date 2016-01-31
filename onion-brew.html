@@ -13,8 +13,11 @@
 
 			<onion-app-body>
 				<div>
-					<h1>Hello</h1>
-					<button on-tap="openFile">Test</button>
+					<h1>Current Temp</h1>
+          <div id="temp-container">
+            {{currentTemp}}
+          </div>
+          <button on-tap="openFile">Test</button>
 				</div>
 			</onion-app-body>
 		</onion-app>
@@ -39,6 +42,7 @@
 					self.fileProvider = fileProvider;
 					fileProvider.getFileContent('/sys/devices/w1_bus_master1/28-0000075d0e77/w1_slave', function(result) {
 						console.log(result);
+            self.currentTemp = result.fileContent;
 					});
 				});	
 			};
