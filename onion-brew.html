@@ -9,19 +9,15 @@
 	<template>
 		<onion-app app-name="Onion Brew">
 			<onion-app-toolbar>
-
 			</onion-app-toolbar>
 
 			<onion-app-body>
 				<div>
-					<h1>
-						Hello	
-					</h1>
+					<h1>Hello</h1>
 					<button on-tap="openFile">Test</button>
 				</div>
 			</onion-app-body>
 		</onion-app>
-
 	</template>
 
 	<script>
@@ -38,12 +34,6 @@
 				self.onionConsole.launchApp(e.target);
 			};
 
-			var openModal = function () {
-				self.$.test.open();
-				console.log("This is logged out");
-			};
-
-			
 			var openFile = function () {
 				onionConsole.getService('onion-file-provider', function(fileProvider) {
 					self.fileProvider = fileProvider;
@@ -58,7 +48,6 @@
 				created: created,
 				ready: function () {},
 				behaviors: [Onion.AppBehavior],
-				openModal: openModal,
 				openFile: openFile,
 				properties: {
 					apps: {
@@ -69,5 +58,4 @@
 			});
 		})();
 	</script>
-
 </dom-module>
