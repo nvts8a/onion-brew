@@ -3,12 +3,9 @@ DEBUG = true
 
 # Logger entry point
 def main
-  log ">> Read app.json for config"
-  config = JSON.parse(File.open("/www/apps/onion-brew/app.json", "rb").read)
 
   log ">> Read w1_slave file contents"
-  # TODO: filename should be put in config
-  w1_slave = File.readlines("/sys/devices/w1_bus_master1/28-0000075d0e77/w1_slave")
+  w1_slave = File.readlines(config[:temp][:output])
 
   log ">> Parse w1_slave file contest to be logged"
   parsed_w1_slave = parse_w1(w1_slave)
@@ -54,11 +51,16 @@ end
 
 # Constructs the log entry and appends the status to the log
 def write(status)
-  # TODO: file prefix should be put in config
-  # TODO: file dir should be put in config
   time = Time.new
-  filename = "onion-brew-status-#{time.strftime("%Y-%m-%d")}"
-  File.open("/mnt/sda1/log/onion-brew/#{filename}", "a") { |f| f.puts "#{time}|#{status.to_json}\r" }
+  filename = "#{config[:log][:suffix]}-#{time.strftime("%Y-%m-%d")}"
+  File.open("#{config[:log][:dir]}/#{filename}", "a") { |f| f.puts "#{time}|#{status.to_json}\r" }
+end
+
+# Helper method that loads and stores config, only references the script portion
+def config
+  @config ||= JSON.parse(File.open("/www/apps/onion-brew/app.json", "rb").read, symbolize_names: true)
+  log ">>> Config called: #{@config}"
+  @config[:scriptConfig]
 end
 
 # Just a handy way of debugging when testing on the Omega, set DEBUG constant to true

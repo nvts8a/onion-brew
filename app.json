@@ -1,5 +1,14 @@
 {
+	"icon": true,
 	"id": "onion-brew",
 	"name": "Onion Brew",
-	"icon": true
+  "scriptConfig": {
+    "log": {
+      "dir":    "/mnt/sda1/log/onion-brew",
+      "suffix": "onion-brew-status"
+    },
+    "temp": {
+      "output": "/sys/devices/w1_bus_master1/28-0000075d0e77/w1_slave"
+    }
+  }
 }
